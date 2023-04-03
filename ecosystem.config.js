@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'crazy_quizz',
+      name: 'quizz_backend',
       script: './dist/main.js',
     },
   ],
