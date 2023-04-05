@@ -1,18 +1,30 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { User } from '@prisma/client';
+import { AuthorizeGuard } from 'src/middleware/authrize.middware';
 import { UserService } from 'src/services/user.service';
 
 @Controller('/api/users')
 export class UserController {
   constructor(private _userService: UserService) {}
 
-  @Get(':id')
-  getUser(@Param('id') id: string) {
-    return this._userService.getUser(id);
+  @UseGuards(AuthorizeGuard)
+  @Get()
+  getUser(@Req() req: NestRequest) {
+    return this._userService.getUser(req.user.uid);
   }
 
+  @UseGuards(AuthorizeGuard)
   @Post()
-  addUser(@Body() userData: User) {
-    return this._userService.addUser(userData);
+  addUser(@Req() req: NestRequest) {
+    return this._userService.addUser(req.user);
   }
 }

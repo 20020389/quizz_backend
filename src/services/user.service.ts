@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { User } from '@prisma/client';
+import { DecodedIdToken } from 'firebase-admin/auth';
 
 @Injectable()
 export class UserService {
@@ -23,10 +23,14 @@ export class UserService {
     }
   }
 
-  async addUser(userData: User) {
+  async addUser(userData: DecodedIdToken) {
     try {
       return await this._db.user.create({
-        data: userData,
+        data: {
+          id: userData.uid,
+          email: userData.email ?? '',
+          name: userData.email ?? '',
+        },
       });
     } catch (error) {
       if (error instanceof Error) {
