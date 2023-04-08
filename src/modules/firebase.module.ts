@@ -7,7 +7,7 @@ import path from 'path';
     FirebaseModule.forRoot({
       googleApplicationCredential: path.join(
         process.cwd(),
-        'firebase/service_accout.json',
+        'firebase/service_account.json',
       ),
     }),
   ],
